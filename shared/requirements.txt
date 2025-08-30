@@ -1,0 +1,1 @@
+# Empty requirements file to force SAM to build the layer

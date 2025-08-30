@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  lambda_layers_poc
+  Sample SAM Template for lambda_layers_poc
+
+Globals:
+  Function:
+    Timeout: 3
+    LoggingConfig:
+      LogFormat: JSON
+Resources:
+
+  SharedLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: shared
+      Description: Shared service layer
+      ContentUri: shared/
+      CompatibleRuntimes:
+        - python3.13
+      RetentionPolicy: Delete
+    Metadata:
+      BuildMethod: python3.13
+
+  HelloWorld1Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world_1/
+      Handler: app.lambda_handler
+      Runtime: python3.13
+      Architectures:
+        - x86_64
+      Layers:
+        - !Ref SharedLayer
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /hello-world-1
+            Method: get
+
+  HelloWorld2Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world_2/
+      Handler: app.lambda_handler
+      Runtime: python3.13
+      Architectures:
+        - x86_64
+      Layers:
+        - !Ref SharedLayer
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /hello-world-2
+            Method: get
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  HelloWorldApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World 
+      function
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  HelloWorld1Function:
+    Description: Hello World 1 Lambda Function ARN
+    Value: !GetAtt HelloWorld1Function.Arn
+  HelloWorld1FunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value: !GetAtt HelloWorld1FunctionRole.Arn
+  HelloWorld2Function:
+    Description: Hello World 2 Lambda Function ARN
+    Value: !GetAtt HelloWorld2Function.Arn
+  HelloWorld2FunctionIamRole:
+    Description: Implicit IAM Role created for Hello World 2 function
+    Value: !GetAtt HelloWorld2FunctionRole.Arn

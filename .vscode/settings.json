@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./shared"
+    ],
+    "python.defaultInterpreterPath": "./.venv/Scripts/python.exe"
+}

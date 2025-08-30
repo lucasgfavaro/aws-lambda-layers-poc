@@ -1,0 +1,56 @@
+{
+  // VS Code launch.json - versión 2025-08-30
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach SAM Python Hello World 1",
+      "type": "debugpy",
+      "request": "attach",
+      "connect": {
+        "host": "localhost",
+        "port": 5890
+      },
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}/hello_world_1",
+          "remoteRoot": "/var/task"
+        }
+      ]
+    },
+    {
+      "name": "Attach SAM Python Hello World 2",
+      "type": "debugpy",
+      "request": "attach",
+      "connect": {
+        "host": "localhost",
+        "port": 5890
+      },
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}/hello_world_2",
+          "remoteRoot": "/var/task"
+        }
+      ]
+    },    
+    {
+      "name": "Debug local_test_hello_world_1.py",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/local_test_hello_world_1.py",
+      "console": "integratedTerminal",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/shared"
+      }
+    },
+    {
+      "name": "Debug local_test_hello_world_2.py",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/local_test_hello_world_2.py",
+      "console": "integratedTerminal",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/shared"
+      }
+    }
+  ]
+}
